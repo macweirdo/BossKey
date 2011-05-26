@@ -1,0 +1,23 @@
+BossKey!
+By y International and RobCraft.dre.am
+
+
+//Compilation
+This requires AutoIt 3 and the SciTE editor with AutoIt Lexicon.
+Just press Ctrl+F7 and specify the parameters that aren't already specified.
+
+//Running
+This program tells you which hotkeys do what in the intro section.
+
+For reference:
+
+	While the program is starting:
+
+		[Esc] Allows you to choose the window to possess.
+
+	While the program is running:
+
+		[Ctrl+Shift+Q] Hide window
+		[Ctrl+Shift+Del] Close BossKey
+		[Ctrl] Show BossKey dialog
+
