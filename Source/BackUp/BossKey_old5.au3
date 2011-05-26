@@ -76,7 +76,6 @@ While 1 = 1
 				Exit
 			EndIf
 			If _IsPressed(57, $handle) Then
-				$num = $winhandle
 				$title = InputBox("BossKey", "Window Title?", "Minecraft")
 				If $title == "" Then
 					Exit
@@ -84,8 +83,6 @@ While 1 = 1
 				$winhandle = WinGetHandle($title)
 				If @error > 0 Then
 					ToolTip("Fail.", 0, 0, "Window does not exist.", 3, 0)
-					Sleep(1250)
-					$winhandle = $num
 				EndIf
 			EndIf
 		EndIf
