@@ -10,11 +10,13 @@
 #include <File.au3>
 #include <Misc.au3>
 #include <NamedPipes.au3>
+#include <ScreenCapture.au3>
 $handle = DllOpen("user32.dll")
 Dim $title, $num, $winhandle, $lines
 Global $check = 1
 
-; _NamedPipes_CreateNamedPipe("\\.\pipe\
+_Singleton("Bosskey!", 0)
+;_NamedPipes_CreateNamedPipe("\\.\pipe\BossKeyPipe", 2, 1, 7)
 
 ToolTip("Just thought you'd like to know.", 0, 0, "Pressing CTRL while BossKey is active will yield a thingy here.", 2)
 Sleep(1250)
@@ -61,7 +63,11 @@ While True
 				$title = InputBox("BossKey", "Window Title?" & @CRLF & "Leave blank to choose current window.")
 				GetCurrentWindow(Execute($title == ""))
 			EndIf
-
+			If _IsPressed("2C", $handle) Then
+				ToolTip("")
+				_ScreenCapture_Capture(@DesktopDir & "\BossKeyScreencap" & @HOUR & @MIN & @SEC & @MON & @MDAY & @YEAR & ".png")
+				ConsoleWrite("Capture stored to: " & @DesktopDir & "\BossKeyScreencap" & @HOUR & @MIN & @SEC & @MON & @MDAY & @YEAR & ".png" & @CRLF)
+			EndIf
 			If _IsPressed("2E", $handle) Then
 				Exit
 			EndIf
@@ -82,7 +88,7 @@ Func GetCurrentWindow($Method)
 		$title = WinGetTitle("")
 		WinWaitNotActive($title)
 		ToolTip("Wait...", 0, 0)
-		Sleep(2000)
+		Sleep(750)
 		$winhandle = WinGetHandle("")
 		$title = WinGetTitle("")
 		If (@error > 0) Then
@@ -99,7 +105,7 @@ Func GetCurrentWindow($Method)
 		EndIf
 	EndIf
 	ConsoleWrite("Window obtained." & @CRLF & "Title: " & $title & @CRLF & "Handle: " & $winhandle & @CRLF)
-	Return $num
+	Return $winhandle
 EndFunc   ;==>GetCurrentWindow
 
 ; y International
