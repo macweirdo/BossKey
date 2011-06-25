@@ -4,15 +4,14 @@
 #AutoIt3Wrapper_UseX64=n
 #AutoIt3Wrapper_Res_Language=1033
 #AutoIt3Wrapper_Run_Tidy=y
-#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Res_File_Add=strings.dat
-;AutoItSetOption("WinTitleMatchMode",
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #include <File.au3>
 #include <Misc.au3>
 #include <NamedPipes.au3>
 #include <ScreenCapture.au3>
 $handle = DllOpen("user32.dll")
-Dim $title, $num, $winhandle, $lines
+Dim $winhandle, $lines
 Global $check = 1
 
 _Singleton("Bosskey!", 0)
@@ -37,12 +36,12 @@ EndIf
 Sleep(1500)
 ToolTip("")
 
-GetCurrentWindow(_IsPressed(57, $handle))
+$winhandle = GetCurrentWindow(_IsPressed(57, $handle))
 
 ToolTip("")
 
 While True
-	Sleep(175)
+	Sleep(75)
 	If _IsPressed(11, $handle) Then
 		$title = WinGetTitle($winhandle)
 		ToolTip("Hiding " & $title, 0, 0, "BossKey Version 1.1", 1)
@@ -83,13 +82,14 @@ While True
 WEnd
 
 Func GetCurrentWindow($Method)
+	Local $WindowHandle, $title, $num
 	If $Method = 0 Then
 		ToolTip("Select the window you want to hide NOW.", 0, 0)
 		$title = WinGetTitle("")
 		WinWaitNotActive($title)
 		ToolTip("Wait...", 0, 0)
 		Sleep(750)
-		$winhandle = WinGetHandle("")
+		$WindowHandle = WinGetHandle("")
 		$title = WinGetTitle("")
 		If (@error > 0) Then
 			ToolTip("Fail.", 0, 0, "Window does not exist.", 3, 0)
@@ -97,17 +97,18 @@ Func GetCurrentWindow($Method)
 		EndIf
 	Else
 		Sleep(2000)
-		$winhandle = WinGetHandle($title)
+		$WindowHandle = WinGetHandle($title)
 		If @error > 0 Then
 			ToolTip("Fail.", 0, 0, "Window does not exist.", 3, 0)
 			Sleep(1250)
-			$winhandle = $num
+			$WindowHandle = $num
 		EndIf
 	EndIf
-	ConsoleWrite("Window obtained." & @CRLF & "Title: " & $title & @CRLF & "Handle: " & $winhandle & @CRLF)
-	Return $winhandle
+	ConsoleWrite("Window obtained." & @CRLF & "Title: " & $title & @CRLF & "Handle: " & $WindowHandle & @CRLF)
+	Return $WindowHandle
 EndFunc   ;==>GetCurrentWindow
 
-; y International
-; and
-; RobCraft.dre.am
+; y International ;
+; and             ;
+; RobCraft.dre.am ;
+; macweirdo ftw!  ;
