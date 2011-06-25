@@ -17,7 +17,8 @@ For reference:
 
 	While the program is running:
 
-		[Ctrl+Shift+Q] Hide window
-		[Ctrl+Shift+Del] Close BossKey
-		[Ctrl] Show BossKey dialog
-		[Ctrl+Shift+W] Choose a different window (by title)
+		[Ctrl+Shift+Q] 		Hide window
+		[Ctrl+Shift+Del] 	Close BossKey
+		[Ctrl] 			Show BossKey dialog
+		[Ctrl+Shift+W] 		Choose a different window (by title)
+		[Ctrl+Shift+PrintScrn]	Capture the screen
