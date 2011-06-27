@@ -11,7 +11,7 @@
 #include <NamedPipes.au3>
 #include <ScreenCapture.au3>
 $handle = DllOpen("user32.dll")
-Dim $winhandle, $lines
+Dim $winhandle, $lines, $Title
 Global $check = 1
 
 _Singleton("Bosskey!", 0)
@@ -43,9 +43,9 @@ ToolTip("")
 While True
 	Sleep(75)
 	If _IsPressed(11, $handle) Then
-		$title = WinGetTitle($winhandle)
-		ToolTip("Hiding " & $title, 0, 0, "BossKey Version 1.1", 1)
 		If _IsPressed(10, $handle) Then
+			$Title = WinGetTitle($winhandle)
+			ToolTip("Hiding " & $Title, 0, 0, "BossKey Version 1.1", 1)
 			If _IsPressed(51, $handle) Then
 				If $check == 1 Then
 					WinSetState($winhandle, "", @SW_HIDE)
@@ -59,8 +59,8 @@ While True
 			If _IsPressed(57, $handle) Then
 				$num = $winhandle
 				ToolTip("")
-				$title = InputBox("BossKey", "Window Title?" & @CRLF & "Leave blank to choose current window.")
-				GetCurrentWindow(Execute($title == ""))
+				$Title = InputBox("BossKey", "Window Title?" & @CRLF & "Leave blank to choose current window.")
+				GetCurrentWindow($Title)
 			EndIf
 			If _IsPressed("2C", $handle) Then
 				ToolTip("")
@@ -78,34 +78,41 @@ While True
 	If Not WinExists($winhandle) Then
 		ToolTip("Window lost! Seppuku!", 0, 0)
 		Sleep(1500)
+		Exit
 	EndIf
 WEnd
 
-Func GetCurrentWindow($Method)
-	Local $WindowHandle, $title, $num
-	If $Method = 0 Then
+Func GetCurrentWindow($Title = "")
+	Local $WindowHandle, $num
+	If $Title = "" Then
 		ToolTip("Select the window you want to hide NOW.", 0, 0)
-		$title = WinGetTitle("")
-		WinWaitNotActive($title)
+		$Title = WinGetTitle("")
+		WinWaitNotActive($Title)
 		ToolTip("Wait...", 0, 0)
 		Sleep(750)
 		$WindowHandle = WinGetHandle("")
-		$title = WinGetTitle("")
+		$Title = WinGetTitle("")
 		If (@error > 0) Then
 			ToolTip("Fail.", 0, 0, "Window does not exist.", 3, 0)
-			Sleep(1250)
+		Else
+			ConsoleWrite("Window obtained." & @CRLF & "Title: " & $Title & @CRLF & "Handle: " & $WindowHandle & @CRLF)
 		EndIf
 	Else
-		Sleep(2000)
-		$WindowHandle = WinGetHandle($title)
-		If @error > 0 Then
-			ToolTip("Fail.", 0, 0, "Window does not exist.", 3, 0)
-			Sleep(1250)
-			$WindowHandle = $num
+		If StringInStr($Title, "0x") Then
+			$Title = $WindowHandle
+		Else
+			Sleep(2000)
+			$WindowHandle = WinGetHandle($Title)
+			If @error > 0 Then
+				$WindowHandle = $num
+				ToolTip("Fail.", 0, 0, "Window does not exist.", 3, 0)
+			Else
+				ConsoleWrite("Window obtained." & @CRLF & "Title: " & $Title & @CRLF & "Handle: " & $WindowHandle & @CRLF)
+			EndIf
 		EndIf
 	EndIf
-	ConsoleWrite("Window obtained." & @CRLF & "Title: " & $title & @CRLF & "Handle: " & $WindowHandle & @CRLF)
 	Return $WindowHandle
+	Sleep(1250)
 EndFunc   ;==>GetCurrentWindow
 
 ; y International ;
